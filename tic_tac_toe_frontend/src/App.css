@@ -1,0 +1,169 @@
+/* Theme variables for tic-tac-toe app */
+:root {
+  --primary: #1976d2;   /* blue */
+  --secondary: #424242; /* neutral dark */
+  --accent: #ff4081;    /* pink highlight */
+  --background: #fff;
+  --surface: #f8f9fa;
+  --text-primary: #23262f;
+  --text-secondary: #757575;
+  --board-border: #e0e0e0;
+  --cell-border: #bdbdbd;
+  --win-bg: #fff1f7;
+}
+
+.ttt-root {
+  min-height: 100vh;
+  background: var(--background);
+  color: var(--text-primary);
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+}
+
+.ttt-main {
+  min-width: 320px;
+  max-width: 350px;
+  margin: 0 auto;
+  background: var(--surface);
+  border-radius: 18px;
+  box-shadow: 0 8px 24px 0 rgba(32,33,36,.06);
+  padding: 32px 24px 20px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ttt-status {
+  font-size: 1.18rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: var(--accent);
+  letter-spacing: 0.01em;
+  text-align: center;
+}
+
+.ttt-board {
+  display: grid;
+  grid-template-columns: repeat(3, 54px);
+  grid-template-rows: repeat(3, 54px);
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  background: var(--background);
+  border-radius: 14px;
+  border: 2.5px solid var(--board-border);
+  margin-bottom: 20px;
+  box-shadow: 0 1px 4px 0 rgba(32,33,36,.08);
+  padding: 10px;
+}
+
+.ttt-cell {
+  width: 54px;
+  height: 54px;
+  background: white;
+  border: 2px solid var(--cell-border);
+  border-radius: 8px;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: background 0.15s, box-shadow 0.15s, color 0.18s;
+  outline: none;
+  will-change: background, color;
+}
+
+.ttt-cell:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent);
+}
+
+.ttt-cell:hover:enabled {
+  border-color: var(--primary);
+  background: #e3e8f0;
+}
+
+.ttt-cell:disabled {
+  background: #f7faff;
+  color: var(--secondary);
+  cursor: default;
+}
+
+.ttt-cell--win {
+  background: var(--win-bg);
+  color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent);
+  border-color: var(--accent);
+}
+
+.ttt-controls {
+  display: flex;
+  flex-direction: row;
+  margin-top: 8px;
+  margin-bottom: 5px;
+  width: 100%;
+  justify-content: center;
+}
+
+.ttt-btn {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 22px;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  box-shadow: 0 1px 3px 0 rgba(32,33,36,.11);
+  cursor: pointer;
+  margin-right: 0;
+  outline: none;
+  transition: background 0.18s, color 0.22s, transform 0.14s;
+}
+
+.ttt-btn:hover:not(:disabled) {
+  background: var(--accent);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.ttt-btn:active {
+  background: var(--secondary);
+  color: #fff;
+}
+
+.ttt-footer {
+  text-align: center;
+  font-size: 0.925rem;
+  color: var(--text-secondary);
+  margin-top: 18px;
+}
+
+@media (max-width: 500px) {
+  .ttt-main {
+    max-width: 97vw;
+    min-width: 0;
+    padding: 16px 6px;
+  }
+  .ttt-board {
+    grid-template-columns: repeat(3, 40px);
+    grid-template-rows: repeat(3, 40px);
+    padding: 2px;
+    gap: 5px;
+  }
+  .ttt-cell {
+    width: 40px;
+    height: 40px;
+    font-size: 1.25rem;
+  }
+  .ttt-btn {
+    font-size: 0.98rem;
+    padding: 8px 13px;
+  }
+}
