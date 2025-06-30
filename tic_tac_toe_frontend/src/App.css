@@ -1,15 +1,34 @@
-/* Theme variables for tic-tac-toe app */
 :root {
-  --primary: #1976d2;   /* blue */
-  --secondary: #424242; /* neutral dark */
-  --accent: #ff4081;    /* pink highlight */
-  --background: #fff;
-  --surface: #f8f9fa;
-  --text-primary: #23262f;
-  --text-secondary: #757575;
-  --board-border: #e0e0e0;
-  --cell-border: #bdbdbd;
-  --win-bg: #fff1f7;
+  /* Light theme colors */
+  --primary: #225cc7;
+  --accent: #cb4aef;
+  --secondary: #252a42;
+  --background: #f7fafc;
+  --surface: #fff;
+  --text-primary: #1a2137;
+  --text-secondary: #697188;
+  --board-border: #dddee2;
+  --cell-border: #d0d4de;
+  --win-bg: #f3e8fe;
+  --cell-x-fg: #225cc7;
+  --cell-o-fg: #c9189e;
+  --win-animated: linear-gradient(90deg,#1976d2 40%,#cb4aef 60%);
+}
+
+[data-theme='dark'], body[data-theme='dark'] {
+  --primary: #97b7fa;
+  --accent: #c078fa;
+  --secondary: #363657;
+  --background: #191b26;
+  --surface: #272842;
+  --text-primary: #e0e1f9;
+  --text-secondary: #a4a8d3;
+  --board-border: #393b60;
+  --cell-border: #453d6b;
+  --win-bg: #27162c;
+  --cell-x-fg: #6ba6fa;
+  --cell-o-fg: #ff7ae1;
+  --win-animated: linear-gradient(90deg,#c078fa 35%,#97b7fa 71%);
 }
 
 .ttt-root {
@@ -29,17 +48,18 @@
   margin: 0 auto;
   background: var(--surface);
   border-radius: 18px;
-  box-shadow: 0 8px 24px 0 rgba(32,33,36,.06);
+  box-shadow: 0 8px 24px 0 rgba(46,41,78,0.08);
   padding: 32px 24px 20px 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
 }
 
 .ttt-status {
-  font-size: 1.18rem;
+  font-size: 1.20rem;
   font-weight: 600;
-  margin-bottom: 20px;
+  margin-bottom: 14px;
   color: var(--accent);
   letter-spacing: 0.01em;
   text-align: center;
@@ -54,19 +74,20 @@
   align-items: center;
   background: var(--background);
   border-radius: 14px;
-  border: 2.5px solid var(--board-border);
+  border: 3px solid var(--board-border);
   margin-bottom: 20px;
-  box-shadow: 0 1px 4px 0 rgba(32,33,36,.08);
+  box-shadow: 0 1px 6px 0 rgba(32,33,36,.08);
   padding: 10px;
+  position: relative;
 }
 
 .ttt-cell {
   width: 54px;
   height: 54px;
-  background: white;
+  background: var(--surface);
   border: 2px solid var(--cell-border);
   border-radius: 8px;
-  font-size: 2rem;
+  font-size: 2.05rem;
   font-weight: 700;
   color: var(--primary);
   display: flex;
@@ -74,32 +95,51 @@
   align-items: center;
   cursor: pointer;
   box-sizing: border-box;
-  transition: background 0.15s, box-shadow 0.15s, color 0.18s;
   outline: none;
-  will-change: background, color;
+  transition: background 0.2s, box-shadow 0.19s, color 0.19s, border 0.19s;
+  touch-action: manipulation;
+  user-select: none;
+  z-index: 2;
 }
-
+.ttt-cell--active:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent);
+}
 .ttt-cell:focus {
   border-color: var(--accent);
   box-shadow: 0 0 0 2px var(--accent);
 }
 
-.ttt-cell:hover:enabled {
+.ttt-cell:hover:not(:disabled) {
   border-color: var(--primary);
   background: #e3e8f0;
 }
+[data-theme='dark'] .ttt-cell:hover:not(:disabled) {
+  background: #282a40;
+}
 
 .ttt-cell:disabled {
-  background: #f7faff;
+  background: #f0f2fa;
   color: var(--secondary);
   cursor: default;
+  opacity: 0.82;
+}
+[data-theme='dark'] .ttt-cell:disabled {
+  background: #202239;
 }
 
 .ttt-cell--win {
   background: var(--win-bg);
-  color: var(--accent);
+  color: var(--accent) !important;
   box-shadow: 0 0 0 2px var(--accent);
   border-color: var(--accent);
+  animation: bounce-glow 0.7s both;
+  z-index: 3;
+}
+.ttt-cell span {
+  pointer-events: none;
+  font-weight: 700;
+  color: inherit;
 }
 
 .ttt-controls {
@@ -109,6 +149,7 @@
   margin-bottom: 5px;
   width: 100%;
   justify-content: center;
+  gap: 10px;
 }
 
 .ttt-btn {
@@ -120,50 +161,154 @@
   font-size: 1rem;
   font-weight: 500;
   letter-spacing: 0.01em;
-  box-shadow: 0 1px 3px 0 rgba(32,33,36,.11);
+  box-shadow: 0 1px 3px 0 rgba(32,33,36,.13);
   cursor: pointer;
-  margin-right: 0;
   outline: none;
-  transition: background 0.18s, color 0.22s, transform 0.14s;
+  margin-right: 0;
+  transition: background 0.19s, color 0.22s, transform 0.15s, outline 0.14s;
 }
-
+.ttt-btn:focus-visible {
+  outline: 3px solid var(--accent);
+}
 .ttt-btn:hover:not(:disabled) {
   background: var(--accent);
   color: #fff;
   transform: translateY(-2px);
 }
-
 .ttt-btn:active {
   background: var(--secondary);
   color: #fff;
 }
-
+.ttt-btn:disabled {
+  background: #e0e0e0;
+  color: #7e7e7e;
+  cursor: not-allowed;
+}
+.ttt-btn-toggle {
+  border: 2px solid var(--accent);
+  background: transparent;
+  color: var(--accent);
+  font-weight: 600;
+  padding: 10px 16px;
+}
+.ttt-btn-toggle[aria-pressed="true"] {
+  background: var(--accent);
+  color: #fff;
+}
 .ttt-footer {
   text-align: center;
-  font-size: 0.925rem;
+  font-size: 0.95rem;
   color: var(--text-secondary);
-  margin-top: 18px;
+  margin-top: 22px;
+  letter-spacing: 0.01em;
 }
 
+.ttt-win-line {
+  position: absolute;
+  border-radius: 18px;
+  z-index: 10;
+  background: var(--win-animated);
+  opacity: 0.77;
+  pointer-events: none;
+}
+
+/* Animation for win line */
+@keyframes slide-row {
+  0%   { width: 0; opacity:0.3;}
+  80%  { opacity:1;}
+  100% { width: 100%; opacity:1;}
+}
+@keyframes slide-col {
+  0%   { height: 0; opacity:0.3;}
+  78%  { opacity:1;}
+  100% { height: 100%; opacity:1;}
+}
+@keyframes slide-diag1 {
+  0%   { width: 0; opacity: 0.3;}
+  60%  { opacity:1;}
+  100% { width: 100%; opacity:1;}
+}
+@keyframes slide-diag2 {
+  0%   { width: 0; opacity: 0.3;}
+  70%  { opacity:1;}
+  100% { width: 100%; opacity:1;}
+}
+@keyframes bounce-glow {
+  0% { box-shadow: none;}
+  62%{ box-shadow: 0 0 0 8px var(--win-animated);}
+  100%{ box-shadow: 0 0 0 3px var(--win-animated);}
+}
+
+/* Responsive/mobile touch - shrink cells, font */
 @media (max-width: 500px) {
   .ttt-main {
-    max-width: 97vw;
+    max-width: 98vw;
     min-width: 0;
-    padding: 16px 6px;
+    padding: 12px 2px;
   }
   .ttt-board {
     grid-template-columns: repeat(3, 40px);
     grid-template-rows: repeat(3, 40px);
-    padding: 2px;
+    padding: 3px;
     gap: 5px;
+    min-width: unset;
+    min-height: unset;
   }
-  .ttt-cell {
+  .ttt-cell, .ttt-cell--win {
     width: 40px;
     height: 40px;
-    font-size: 1.25rem;
+    font-size: 1.22rem;
+    padding: 0;
   }
-  .ttt-btn {
-    font-size: 0.98rem;
-    padding: 8px 13px;
+  .ttt-btn, .ttt-btn-toggle {
+    font-size: 0.97rem;
+    padding: 7px 13px;
+    min-width: 0;
   }
+  .ttt-footer {
+    font-size: 0.85rem;
+    margin-top: 16px;
+  }
+}
+
+@media (max-width:340px) {
+  .ttt-board {
+    grid-template-columns: repeat(3, 30px);
+    grid-template-rows: repeat(3, 30px);
+    gap: 3px;
+  }
+  .ttt-cell, .ttt-cell--win {
+    width: 30px;
+    height: 30px;
+    font-size: 1.02rem;
+  }
+}
+
+::-webkit-scrollbar { width: 9px; }
+::-webkit-scrollbar-thumb { background: #e0e0e0; border-radius: 6px;}
+[data-theme='dark'] ::-webkit-scrollbar-thumb { background: #23233a;}
+
+[data-theme='dark'] .ttt-main { box-shadow: 0 8px 24px 0 rgba(30,31,54,0.24);}
+[data-theme='dark'] .ttt-btn { color: #fff; }
+
+/* High contrast focus style for keyboard nav */
+.ttt-cell:focus-visible,
+.ttt-btn:focus-visible {
+  outline: 3.5px solid var(--accent);
+  outline-offset: 2.5px;
+}
+
+/* Animated highlight for win cells */
+.animated-highlight {
+  animation: bounce-glow 0.7s both;
+}
+
+/* Hide visually but keep for screen readers */
+.sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  border: 0;
 }
